@@ -1077,32 +1077,31 @@ const totalProfit = dealership.reduce((a,b) => a + b.gross_profit, 0);
 const best = function(what){
  let sales = {};
     dealership.forEach(sale => {
+        var month = sale.purchase_date.substr(5,2);
+        var salesAgent = sale.sales_agent.last_name;
+        var model = sale.vehicle.model;
+        var bank = sale.credit.credit_provider;
         switch(what){
-        case "month":
-            var month = sale.purchase_date.substr(5,2);
-            if(sales[month]) sales[month] += 1;
-            else sales[month] = 1;
-            break;
-        case "agentMonth":
-            var salesAgent = sale.sales_agent.last_name
-            if(sales[salesAgent]) sales[salesAgent] += 1;
-            else sales[salesAgent] = 1;
-            break;
-        case "agentProfit":
-            var salesAgent = sale.sales_agent.last_name
-            if(sales[salesAgent]) sales[salesAgent] += sale.gross_profit;
-            else sales[salesAgent] = sale.gross_profit;
-            break;
-        case "model":
-            var model = sale.vehicle.model;
-            if(sales[model]) sales[model] += 1;
-            else sales[model] = 1;
-            break;
-        case "bank":
-            var bank = sale.credit.credit_provider;
-            if(sales[bank]) sales[bank] += 1;
-            else sales[bank] = 1;
-            break;
+            case "month":
+                if(sales[month]) sales[month] += 1;
+                else sales[month] = 1;
+                break;
+            case "agentMonth":
+                if(sales[salesAgent]) sales[salesAgent] += 1;
+                else sales[salesAgent] = 1;
+                break;
+            case "agentProfit":
+                if(sales[salesAgent]) sales[salesAgent] += sale.gross_profit;
+                else sales[salesAgent] = sale.gross_profit;
+                break;
+            case "model":
+                if(sales[model]) sales[model] += 1;
+                else sales[model] = 1;
+                break;
+            case "bank":
+                if(sales[bank]) sales[bank] += 1;
+                else sales[bank] = 1;
+                break;
         }
     })
     return Object.keys(sales).reduce((a, b) => sales[a] > sales[b] ? a : b);
